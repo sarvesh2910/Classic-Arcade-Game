@@ -85,36 +85,38 @@ Player.prototype.update = function () {
     }
 };
 
+//Increase player points
 Player.prototype.increasePoint = function () {
     this.point += 3
 };
 
+// Decrease player points
 Player.prototype.decreasePoint = function () {
     this.point -= 1;
     if (this.point < 0)
         this.point = 0
 };
-
+// Decrease player life
 Player.prototype.decreaseLife = function () {
     this.life -= 1;
-    player.checkGameOver()
+    if (this.life === 0)
+        player.gameOver()
 };
-
-Player.prototype.checkGameOver = function () {
-    if (this.life === 0) {
-        if (localStorage.getItem('point') == null)
+// Executed when life is === 0
+Player.prototype.gameOver = function () {
+    if (localStorage.getItem('point') == null)
+        localStorage.setItem("point", this.point);
+    else {
+        if (localStorage.getItem('point') < this.point)
             localStorage.setItem("point", this.point);
-        else {
-            if (localStorage.getItem('point') < this.point)
-                localStorage.setItem("point", this.point);
-        }
-        alert('Game Over! \n' +
-            'Your Score :' + this.point + '\n' +
-            'High Score :' + localStorage.getItem('point'));
-        player.restartGame()
     }
+    alert('Game Over! \n' +
+        'Your Score :' + this.point + '\n' +
+        'High Score :' + localStorage.getItem('point'));
+    player.restartGame()
 };
 
+// Used to reset game. Executed, without user action, after the game is over
 Player.prototype.restartGame = function () {
     this.point = 0;
     this.life = 3;
