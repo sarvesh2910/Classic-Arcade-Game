@@ -30,7 +30,9 @@ Enemy.prototype.collisionCheck = function () {
         player.x + 50 > this.x &&
         player.y < this.y + 70 &&
         40 + player.y > this.y) {
-        player.reset();
+        player.resetPosition();
+        player.decreasePoint();
+        player.decreaseLife();
     }
 };
 
@@ -49,11 +51,14 @@ class Player {
         this.y = 400;
         this.position = 50;
         this.sprite = 'images/char-boy.png';
+        this.life = 3;
+        this.point = 0;
     }
 }
 
+
 // used to reset the user position
-Player.prototype.reset = function () {
+Player.prototype.resetPosition = function () {
     this.x = 200;
     this.y = 400;
 };
@@ -76,12 +81,52 @@ Player.prototype.update = function () {
     if (this.y < 0) {
         this.x = 200;
         this.y = 400;
+        player.increasePoint()
     }
+};
+
+Player.prototype.increasePoint = function () {
+    this.point += 3
+};
+
+Player.prototype.decreasePoint = function () {
+    this.point -= 1;
+    if (this.point < 0)
+        this.point = 0
+};
+
+Player.prototype.decreaseLife = function () {
+    this.life -= 1;
+    player.checkGameOver()
+};
+
+Player.prototype.checkGameOver = function () {
+    if (this.life === 0) {
+        if (localStorage.getItem('point') == null)
+            localStorage.setItem("point", this.point);
+        else {
+            if (localStorage.getItem('point') < this.point)
+                localStorage.setItem("point", this.point);
+        }
+        alert('Game Over! \n' +
+            'Your Score :' + this.point + '\n' +
+            'High Score :' + localStorage.getItem('point'));
+        player.restartGame()
+    }
+};
+
+Player.prototype.restartGame = function () {
+    this.point = 0;
+    this.life = 3;
 };
 
 // Draw the player on the screen, required method for game
 Player.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    ctx.fillStyle = 'white';
+    ctx.font = "16px Arial";
+    ctx.fillText('💎 ' + this.point, 15, 75);
+    ctx.fillText('❤️ ' + this.life, 450, 75);
 };
 
 // handles the user input

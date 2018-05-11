@@ -5,7 +5,8 @@ This is Classic Arcade Game playable on the modern browsers.
 
 ### How to play
 
-* Press left, right, up or down arrow keys to move across in the game
-* Avoid collision with the bugs
-* Win by crossing the streets and going to the the water
+* 1. Press left, right, up or down arrow keys to move across in the game
+* 2. Score points by crossing the streets and going to the the water.
+* 3. Avoid collision with the bugs. It costs your precious 1 point 💎 and 1 life ❤.
+
 
